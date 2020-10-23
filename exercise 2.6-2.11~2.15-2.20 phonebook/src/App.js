@@ -44,23 +44,26 @@ const App = () => {
 
     if (check.length > 0){
       let result = window.confirm(`${newName} already exists, replace the old number with the new one?`);
+      
       if (result) {
         personService
         .update(check[0].id, {...check[0] , number: newNumber})
         .then(response => setPersons(persons.map(val => val.id === check[0].id ? response.data : val)))
         .then(() => setSuccessMessage(`person ${check[0].name} updated successfully`))
       }
+
     }
     else if (check2.length > 0) {
       alert(`${newNumber} already exists`);
-
     } else {
+
       personService
       .create({name: newName, number: newNumber})
       .then(response => {
         setPersons(persons.concat(response.data))
         setSuccessMessage(`${newName} has been added!`);
       })
+
     }
 
     setNewName('');
@@ -68,6 +71,7 @@ const App = () => {
   }
 
   const deleteHandler = (id) => {
+
     let result = window.confirm(`Delete person number ${id}?`)
     if (result){
       personService
@@ -81,7 +85,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
       <Notification message={successMessage}/>
       <Error message={errorMessage} />
       <Filter query={query} handleQuery={handleQuery}/>
